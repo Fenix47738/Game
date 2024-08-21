@@ -1,33 +1,28 @@
 ﻿using System;
+using System.Timers;
 
 namespace Game
 {
     public class Program
     {
-        private static byte width = 60;
-        private static byte height = 24;
+        private static Timer timer;
         
         public static void Main(string[] args)
         {
-            GenerateMap();
-
+            SetTimer();
+            
             Console.ReadKey();
+            
+            timer.Stop();
+            timer.Dispose();
         }
 
-        private static void GenerateMap()
+        private static void SetTimer()
         {
-            for (byte col = 0; col < height; col++)
-            {
-                for (byte row = 0; row < width; row++)
-                {
-                    if (row == 0 || col == 0 || row == width - 1 || col == height - 1)
-                        Console.Write("#");
-                    else
-                        Console.Write(" ");
-                }
-
-                Console.WriteLine();
-            }
+            timer = new Timer(1000);
+            timer.Elapsed += new ElapsedEventHandler(Control.GeneratingMap);
+            timer.AutoReset = true;
+            timer.Start();
         }
     }
 }
