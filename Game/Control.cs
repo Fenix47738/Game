@@ -10,7 +10,14 @@ namespace Game
         
         private static Player player = new Player((byte)(width / 2),(byte)(height - 2));
 
-        public static void GeneratingMap(object sender, ElapsedEventArgs elapsedEventArgs)
+        public static void Playing(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            player.Move();
+            
+            GeneratingMap();
+        }
+
+        private static void GeneratingMap()
         {
             Console.Clear();
             
