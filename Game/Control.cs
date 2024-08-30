@@ -1,18 +1,18 @@
 using System;
 using System.Timers;
+using static Game.Config;
 
 namespace Game
 {
     public class Control
     {
-        private static byte width = 60;
-        private static byte height = 24;
-        
-        private static Player player = new Player((byte)(width / 2),(byte)(height - 2));
+        private static Player player = new Player((byte)(WIDTH / 2),(byte)(GROUND_LEVEL - 2));
 
         public static void Playing(object sender, ElapsedEventArgs elapsedEventArgs)
         {
+            //player.PhysicsOfFalling();
             player.Move();
+                player.PhysicsOfFalling();
             
             GeneratingMap();
         }
@@ -21,11 +21,11 @@ namespace Game
         {
             Console.Clear();
             
-            for (byte col = 0; col < height; col++)
+            for (byte col = 0; col < HEIGHT; col++)
             {
-                for (byte row = 0; row < width; row++)
+                for (byte row = 0; row < WIDTH; row++)
                 {
-                    if (row == 0 || col == 0 || row == width - 1 || col == height - 1)
+                    if (row == 0 || col == 0 || row == WIDTH - 1 || col == HEIGHT - 1)
                         Console.Write("#");
                     else if (player.X == row && player.Y == col)
                         Console.Write("P");
@@ -36,8 +36,5 @@ namespace Game
                 Console.WriteLine();
             }
         }
-        
-        public static byte Width { get => width; }
-        public static byte Height { get => height; }
     }
 }

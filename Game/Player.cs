@@ -1,10 +1,14 @@
 using System;
 using static System.Console;
+using static Game.Config;
 
 namespace Game
 {
     public class Player
     {
+        private byte velocity = INITIAL_VELOCITY;
+        private byte deltaTime = 1;
+        
         private static Keyboard[] keyboard = new Keyboard[1];
         
         private byte x;
@@ -12,8 +16,7 @@ namespace Game
 
         public Player(byte x, byte y)
         {
-            Console.WriteLine($"{x}, {y}, {x > Control.Width - 2}, {y > Control.Height - 2}, {y < 0}, {x < 0}");
-            if (x > Control.Width - 2 || y > Control.Height - 2 || y < 0 || x < 0)
+            if (x > WIDTH - 2 || y > HEIGHT - 2 || y < 0 || x < 0)
                 throw new ArgumentException();
             
             this.x = x;
@@ -29,14 +32,14 @@ namespace Game
 
             if ((keyboard[key1] == Game.Keyboard.Left && keyboard[key2] == Game.Keyboard.Space) || (keyboard[key2] == Game.Keyboard.Left && keyboard[key1] == Game.Keyboard.Space))
             {
-                y -= 2;
+                y -= 5;
                 x -= 1;
             } else if ((keyboard[key1] == Game.Keyboard.Right && keyboard[key2] == Game.Keyboard.Space) || (keyboard[key2] == Game.Keyboard.Right && keyboard[key1] == Game.Keyboard.Space))
             {
-                y -= 2;
+                y -= 5;
                 x += 1;
             } else if (keyboard[key1] == Game.Keyboard.Space || keyboard[key2] == Game.Keyboard.Space)
-                y -= 2;
+                y -= 5;
             else if (keyboard[key1] == Game.Keyboard.Left || keyboard[key2] == Game.Keyboard.Left)
                 x -= 1;
             else if (keyboard[key1] == Game.Keyboard.Right || keyboard[key2] == Game.Keyboard.Right)
@@ -70,6 +73,23 @@ namespace Game
                 ConsoleKey.D => Game.Keyboard.Right,
                 _ => Game.Keyboard.Null
             };
+        }
+
+        public void PhysicsOfFalling()
+        {
+            Console.WriteLine(y < GROUND_LEVEL);
+            if (y < GROUND_LEVEL)
+            {
+                velocity +=(byte)(GRAVITY * deltaTime);
+
+                y += (byte)(velocity * deltaTime); //(byte)Math.Round(velocity * deltaTime);
+
+                if (y > GROUND_LEVEL)
+                {
+                    y = GROUND_LEVEL;
+                    velocity = INITIAL_VELOCITY;
+                }
+            }
         }
 
         public byte X { get => x; }
