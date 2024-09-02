@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using static System.Console;
 using static Game.Config;
 
@@ -11,16 +12,16 @@ namespace Game
         
         private static Keyboard[] keyboard = new Keyboard[1];
         
-        private byte x;
-        private byte y;
+        private static int x;
+        private static int y;
 
         public Player(byte x, byte y)
         {
             if (x > WIDTH - 2 || y > HEIGHT - 2 || y < 0 || x < 0)
                 throw new ArgumentException();
             
-            this.x = x;
-            this.y = y;
+            Player.x = x;
+            Player.y = y;
         }
 
         public void Move()
@@ -31,11 +32,28 @@ namespace Game
             byte key2 = 1;
 
             if (keyboard[key1] == Game.Keyboard.Space || keyboard[key2] == Game.Keyboard.Space)
+            {
+                Draw(" ");
+                
                 y -= 5;
-            else if (keyboard[key1] == Game.Keyboard.Left || keyboard[key2] == Game.Keyboard.Left)
+                
+                Draw("P");
+            } else if (keyboard[key1] == Game.Keyboard.Left || keyboard[key2] == Game.Keyboard.Left)
+            {
+                Draw(" ");
+                
                 x -= 1;
+                
+                Draw("P");
+            }
             else if (keyboard[key1] == Game.Keyboard.Right || keyboard[key2] == Game.Keyboard.Right)
+            {
+                Draw(" ");
+                
                 x += 1;
+                
+                Draw("P");
+            }
         }
 
         private Keyboard[] Keyboard()
@@ -67,23 +85,44 @@ namespace Game
             };
         }
 
+        private void Draw(string s)
+        {
+            SetCursorPosition(x, y);
+            Write(s);
+        }
+
         public void PhysicsOfFalling()
         {
             if (y < GROUND_LEVEL)
             {
                 velocity +=(byte)(GRAVITY * deltaTime);
+                
+                Draw(" ");
 
                 y += (byte)(velocity * deltaTime);
+                
+                Draw("P");
 
                 if (y > GROUND_LEVEL)
                 {
+                    Draw(" ");
+                    
                     y = GROUND_LEVEL;
                     velocity = INITIAL_VELOCITY;
+                    
+                    Draw("P");
                 }
             }
         }
 
-        public byte X { get => x; }
-        public byte Y { get => y; }
+        /*public static void Draw(StreamWriter consoleWriter)
+        {
+            SetCursorPosition(x, y);
+            
+            Write("P");
+        }*/
+
+        public int X { get => x; }
+        public int Y { get => y; }
     }
 }

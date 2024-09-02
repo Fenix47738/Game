@@ -1,5 +1,5 @@
 using System;
-using System.Threading;
+using System.IO;
 using static Game.Config;
 
 namespace Game
@@ -8,13 +8,24 @@ namespace Game
     {
         private static Player player = new Player((byte)(WIDTH / 2),(byte)(GROUND_LEVEL - 2));
 
-        public static void Playing()
+        private static StreamWriter consoleWriter;
+
+        public static void SetStart()
         {
-            player.Move();
-            player.PhysicsOfFalling();
+            Console.SetCursorPosition(Config.WIDTH, Config.HEIGHT);
+            
+            SetWriter();
+            GeneratingMap();
         }
 
-        public static void GeneratingMap()
+        private static void SetWriter()
+        {
+            consoleWriter = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true };
+            
+            Console.SetOut(consoleWriter);
+        }
+
+        private static void GeneratingMap()
         {
             Console.Clear();
             
@@ -24,14 +35,22 @@ namespace Game
                 {
                     if (row == 0 || col == 0 || row == WIDTH - 1 || col == HEIGHT - 1)
                         Console.Write("#");
-                    else if (player.X == row && player.Y == col)
-                        Console.Write("P");
                     else
                         Console.Write(" ");
+                    /*else if (player.X == row && player.Y == col)
+                        Console.Write("P");
+                    else
+                        Console.Write(" ");*/
                 }
 
                 Console.WriteLine();
             }
+        }
+        
+        public static void Playing()
+        {
+            player.Move();
+            player.PhysicsOfFalling();
         }
     }
 }
