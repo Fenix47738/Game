@@ -30,15 +30,7 @@ namespace Game
             byte key1 = 0;
             byte key2 = 1;
 
-            if ((keyboard[key1] == Game.Keyboard.Left && keyboard[key2] == Game.Keyboard.Space) || (keyboard[key2] == Game.Keyboard.Left && keyboard[key1] == Game.Keyboard.Space))
-            {
-                y -= 5;
-                x -= 1;
-            } else if ((keyboard[key1] == Game.Keyboard.Right && keyboard[key2] == Game.Keyboard.Space) || (keyboard[key2] == Game.Keyboard.Right && keyboard[key1] == Game.Keyboard.Space))
-            {
-                y -= 5;
-                x += 1;
-            } else if (keyboard[key1] == Game.Keyboard.Space || keyboard[key2] == Game.Keyboard.Space)
+            if (keyboard[key1] == Game.Keyboard.Space || keyboard[key2] == Game.Keyboard.Space)
                 y -= 5;
             else if (keyboard[key1] == Game.Keyboard.Left || keyboard[key2] == Game.Keyboard.Left)
                 x -= 1;
@@ -77,12 +69,11 @@ namespace Game
 
         public void PhysicsOfFalling()
         {
-            Console.WriteLine(y < GROUND_LEVEL);
             if (y < GROUND_LEVEL)
             {
                 velocity +=(byte)(GRAVITY * deltaTime);
 
-                y += (byte)(velocity * deltaTime); //(byte)Math.Round(velocity * deltaTime);
+                y += (byte)(velocity * deltaTime);
 
                 if (y > GROUND_LEVEL)
                 {

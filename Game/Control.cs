@@ -1,5 +1,5 @@
 using System;
-using System.Timers;
+using System.Threading;
 using static Game.Config;
 
 namespace Game
@@ -8,16 +8,13 @@ namespace Game
     {
         private static Player player = new Player((byte)(WIDTH / 2),(byte)(GROUND_LEVEL - 2));
 
-        public static void Playing(object sender, ElapsedEventArgs elapsedEventArgs)
+        public static void Playing()
         {
-            //player.PhysicsOfFalling();
             player.Move();
-                player.PhysicsOfFalling();
-            
-            GeneratingMap();
+            player.PhysicsOfFalling();
         }
 
-        private static void GeneratingMap()
+        public static void GeneratingMap()
         {
             Console.Clear();
             
