@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using static System.Console;
 using static Game.Config;
 
@@ -105,6 +104,9 @@ namespace Game
 
                 if (y > GROUND_LEVEL)
                 {
+                    
+                    
+                    //Control.GeneratingMap();
                     Draw(" ");
                     
                     y = GROUND_LEVEL;
@@ -114,13 +116,6 @@ namespace Game
                 }
             }
         }
-
-        /*public static void Draw(StreamWriter consoleWriter)
-        {
-            SetCursorPosition(x, y);
-            
-            Write("P");
-        }*/
 
         public int X { get => x; }
         public int Y { get => y; }

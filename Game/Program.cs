@@ -13,7 +13,12 @@ namespace Game
         
         public static void Main(string[] args)
         {
+            Console.SetWindowSize(Config.WIDTH, Config.HEIGHT);
+            Console.SetBufferSize(Config.WIDTH, Config.HEIGHT);
+            
             Control.SetStart();
+            
+            Thread.Sleep(500);
             
             timer = new Timer(new TimerCallback(TimerTick), null, 0, 100);
             
