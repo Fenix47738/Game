@@ -13,8 +13,11 @@ namespace Game
         
         public static void Main(string[] args)
         {
-            Console.SetWindowSize(Config.WIDTH, Config.HEIGHT);
-            Console.SetBufferSize(Config.WIDTH, Config.HEIGHT);
+            //Console.Write(Config.WIDTH + " " + Config.HEIGHT);
+            Console.SetWindowSize(Config.WIDTH + 5, Config.HEIGHT + 5);
+            Console.SetBufferSize(Config.WIDTH + 5, Config.HEIGHT + 5);
+
+            Console.CursorVisible = false;
             
             Control.SetStart();
             

@@ -1,6 +1,7 @@
 using System;
 using static System.Console;
 using static Game.Config;
+using static Game.Control;
 
 namespace Game
 {
@@ -14,7 +15,7 @@ namespace Game
         private static int x;
         private static int y;
 
-        public Player(byte x, byte y)
+        protected internal Player(byte x, byte y)
         {
             if (x > WIDTH - 2 || y > HEIGHT - 2 || y < 0 || x < 0)
                 throw new ArgumentException();
@@ -23,7 +24,7 @@ namespace Game
             Player.y = y;
         }
 
-        public void Move()
+        protected internal void Move()
         {
             keyboard = Keyboard();
 
@@ -32,26 +33,59 @@ namespace Game
 
             if (keyboard[key1] == Game.Keyboard.Space || keyboard[key2] == Game.Keyboard.Space)
             {
-                Draw(" ");
+                WriteAt(" ", x, y);
                 
                 y -= 5;
                 
-                Draw("P");
+                WriteAt("P", x, y);
             } else if (keyboard[key1] == Game.Keyboard.Left || keyboard[key2] == Game.Keyboard.Left)
             {
-                Draw(" ");
+                if (Config.MAP[x - 1, y].Equals(Config.WALL))
+                    return;
+                
+                WriteAt(" ", x, y);
                 
                 x -= 1;
                 
-                Draw("P");
+                WriteAt("P", x, y);
             }
             else if (keyboard[key1] == Game.Keyboard.Right || keyboard[key2] == Game.Keyboard.Right)
             {
-                Draw(" ");
+                if (Config.MAP[x + 1, y].Equals(Config.WALL))
+                    return;
+                
+                WriteAt(" ", x, y);
                 
                 x += 1;
                 
-                Draw("P");
+                WriteAt("P", x, y);
+            }
+        }
+        
+        protected internal void PhysicsOfFalling()
+        {
+            if (y < GROUND_LEVEL)
+            {
+                velocity +=(byte)(GRAVITY * deltaTime);
+                
+                WriteAt(" ", x, y);
+
+                y += (byte)(velocity * deltaTime);
+                
+                WriteAt("P", x, y);
+
+                if (y > GROUND_LEVEL)
+                {
+                    
+                    
+                    //Control.GeneratingMap();
+                    WriteAt(" ", x, y);
+                    
+                    y = GROUND_LEVEL;
+                    velocity = INITIAL_VELOCITY;
+                    
+                    WriteAt("P", x, y);
+                }
             }
         }
 
@@ -84,40 +118,7 @@ namespace Game
             };
         }
 
-        private void Draw(string s)
-        {
-            SetCursorPosition(x, y);
-            Write(s);
-        }
-
-        public void PhysicsOfFalling()
-        {
-            if (y < GROUND_LEVEL)
-            {
-                velocity +=(byte)(GRAVITY * deltaTime);
-                
-                Draw(" ");
-
-                y += (byte)(velocity * deltaTime);
-                
-                Draw("P");
-
-                if (y > GROUND_LEVEL)
-                {
-                    
-                    
-                    //Control.GeneratingMap();
-                    Draw(" ");
-                    
-                    y = GROUND_LEVEL;
-                    velocity = INITIAL_VELOCITY;
-                    
-                    Draw("P");
-                }
-            }
-        }
-
-        public int X { get => x; }
-        public int Y { get => y; }
+        protected internal int X { get => x; }
+        protected internal int Y { get => y; }
     }
 }

@@ -10,8 +10,18 @@ namespace Game
 
         private static StreamWriter consoleWriter;
 
-        public static void SetStart()
+        protected internal static void SetStart()
         {
+            for (int row = 0; row < MAP.GetLength(0); row++)
+            {
+                for (int col = 0; col < MAP.GetLength(1); col++)
+                {
+                    Console.Write(MAP[row, col]);
+                }
+                
+                Console.WriteLine();
+            }
+            
             SetWriter();
         }
 
@@ -22,10 +32,29 @@ namespace Game
             Console.SetOut(consoleWriter);
         }
         
-        public static void Playing()
+        protected internal static void Playing()
         {
             player.Move();
             player.PhysicsOfFalling();
+        }
+
+        protected internal static void WriteAt(string s, int x, int y)
+        {
+            try
+            {
+                Console.SetCursorPosition(x, y);
+                Console.Write(s);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                
+                Console.Clear();
+                Console.WriteLine("Error");
+                Console.ReadKey();
+
+                throw e;
+            }
         }
     }
 }
