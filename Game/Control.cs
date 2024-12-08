@@ -38,7 +38,7 @@ namespace Game
             player.PhysicsOfFalling();
         }
 
-        protected internal static void WriteAt(string s, int x, int y)
+        protected internal static void WriteAt(char s, int x, int y)
         {
             try
             {
